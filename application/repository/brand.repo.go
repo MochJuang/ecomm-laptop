@@ -43,3 +43,12 @@ func (db *brandConnection) All() ([]model.Brand, error) {
 	}
 	return brands, nil
 }
+
+func (db *brandConnection) Find(brand model.Brand) (model.Brand, error) {
+	result := db.connection.Find(&brand)
+	if result.Error != nil {
+		logrus.Info(result.Error.Error())
+		return brand, errors.New(result.Error.Error())
+	}
+	return brand, nil
+}

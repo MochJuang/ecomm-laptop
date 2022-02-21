@@ -10,10 +10,6 @@ type Product struct {
 	gorm.Model
 	ID uint64 `gorm:"primaryKey:autoIncrement" json:"id"`
 
-	Disk      string `json:"disk"`
-	Ram       int    `json:"ram"`
-	Rom       int    `json:"rom"`
-	IsSsd     bool   `json:"is_ssd"`
 	MerkId    uint64 `gorm:"not null" json:"-"`
 	Merk      Merk   `gorm:"foreignkey:MerkId;constraint:onUpdate:CASCADE,onDelete:CASCADE" json:"merk"`
 	MemoryId  uint64 `gorm:"not null" json:"-"`

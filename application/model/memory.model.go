@@ -11,7 +11,6 @@ type Memory struct {
 	ID        uint64     `gorm:"primaryKey:autoIncrement" json:"id"`
 	Disk      string     `json:"disk"`
 	Ram       int        `json:"ram"`
-	Rom       int        `json:"rom"`
 	IsSsd     bool       `json:"is_ssd"`
 	Product   []*Product `json:"product,omitempty"`
 	CreatedAt time.Time
