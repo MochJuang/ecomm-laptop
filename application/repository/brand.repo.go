@@ -24,12 +24,11 @@ func NewBrandRepository(db *gorm.DB) BrandRepository {
 }
 
 func (db *brandConnection) Insert(brand model.Brand) (model.Brand, error) {
-	result := db.connection.Save(&brand)
+	result := db.connection.Create(&brand)
 	if result.Error != nil {
 		logrus.Info(result.Error.Error())
 		return brand, errors.New(result.Error.Error())
 	}
-	db.connection.Find(&brand)
 
 	return brand, nil
 }

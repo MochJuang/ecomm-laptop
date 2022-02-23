@@ -29,10 +29,10 @@ type Transaksi struct {
 	gorm.Model
 	ID              uint64          `gorm:"primaryKey:autoIncrement" json:"id"`
 	UserId          uint64          `gorm:"not null" json:"-"`
-	User            User            `gorm:"foreignkey:UserId;constraint:onUpdate:CASCADE,onDelete:CASCADE" json:"user"`
+	User            User            `gorm:"foreignkey:UserId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;references:id" json:"user"`
 	KodeTransaksi   string          `json:"kode_transaksi"`
 	AlamatId        uint64          `gorm:"not null" json:"-"`
-	Alamat          Alamat          `gorm:"foreignkey:AlamatId;constraint:onUpdate:CASCADE,onDelete:CASCADE" json:"alamat"`
+	Alamat          Alamat          `gorm:"foreignkey:AlamatId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;references:id" json:"alamat"`
 	Total           uint64          `json:"total"`
 	StatusTransaksi StatusKeranjang `json:"StatusKeranjang" sql:"type:ENUM('wait', 'send', 'finish', 'cancel')"`
 	CreatedAt       time.Time

@@ -1,10 +1,11 @@
 package controller
 
 import (
+	"log"
+
 	"github.com/MochJuang/ecomm-laptop/application/helper"
 	"github.com/MochJuang/ecomm-laptop/application/service"
 	"github.com/gofiber/fiber/v2"
-	"github.com/sirupsen/logrus"
 )
 
 type BrandController interface {
@@ -24,8 +25,8 @@ func NewBrandController(bs service.BrandService) BrandController {
 func (b *brandController) Get(c *fiber.Ctx) error {
 	brands, err := b.brandService.GetAll()
 	if err != nil {
-		logrus.Info(err.Error())
+		log.Println(err.Error())
 		return helper.BuildErrorResponse(c, "Error ", err.Error(), helper.EmptyObj{})
 	}
-	return helper.BuildResponse(c, "Error ", brands)
+	return helper.BuildResponse(c, "Success ", brands)
 }

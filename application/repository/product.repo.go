@@ -10,6 +10,7 @@ import (
 
 type ProductRepository interface {
 	Insert(product model.Product) (model.Product, error)
+	// Find(product model.Product) error
 }
 
 type productConnection struct {
@@ -23,12 +24,14 @@ func NewProductRepository(db *gorm.DB) ProductRepository {
 }
 
 func (db *productConnection) Insert(product model.Product) (model.Product, error) {
-	result := db.connection.Save(&product)
+	result := db.connection.Create(&product)
 	if result.Error != nil {
 		logrus.Info(result.Error.Error())
 		return product, errors.New(result.Error.Error())
 	}
-	db.connection.Find(&product)
-
 	return product, nil
 }
+
+// func (db *productConnection) Find(product *model.Product) (error) {
+
+// }

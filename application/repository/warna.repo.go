@@ -23,12 +23,10 @@ func NewWarnaRepository(db *gorm.DB) WarnaRepository {
 }
 
 func (db *warnaConnection) Insert(warna model.Warna) (model.Warna, error) {
-	result := db.connection.Save(&warna)
+	result := db.connection.Create(&warna)
 	if result.Error != nil {
 		logrus.Info(result.Error.Error())
 		return warna, errors.New(result.Error.Error())
 	}
-	db.connection.Find(&warna)
-
 	return warna, nil
 }

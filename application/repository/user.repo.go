@@ -23,12 +23,10 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 }
 
 func (db *userConnection) Insert(user model.User) (model.User, error) {
-	result := db.connection.Save(&user)
+	result := db.connection.Create(&user)
 	if result.Error != nil {
 		logrus.Info(result.Error.Error())
 		return user, errors.New(result.Error.Error())
 	}
-	db.connection.Find(&user)
-
 	return user, nil
 }

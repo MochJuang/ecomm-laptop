@@ -23,12 +23,10 @@ func NewMemoryRepository(db *gorm.DB) MemoryRepository {
 }
 
 func (db *memoryConnection) Insert(memory model.Memory) (model.Memory, error) {
-	result := db.connection.Save(&memory)
+	result := db.connection.Create(&memory)
 	if result.Error != nil {
 		logrus.Info(result.Error.Error())
 		return memory, errors.New(result.Error.Error())
 	}
-	db.connection.Find(&memory)
-
 	return memory, nil
 }
