@@ -150,7 +150,7 @@ func (db *MerkConnection) DetailMerk(id uint64) (model.DetailMerk, error) {
 
 	db.connection.Raw(`
 		SELECT
-			*
+			b.*
 		FROM
 			products a
 		INNER JOIN warnas b ON a.warna_id = b.id
@@ -162,16 +162,16 @@ func (db *MerkConnection) DetailMerk(id uint64) (model.DetailMerk, error) {
 	var detailWarnas []model.DetailVariasiWarna
 	for _, warna := range warnas {
 		var memories []model.DetailVariasiMemory
-		db.connection.Raw(`
+		memorySql := `
 			SELECT
 				b.id as memory_id, a.harga, b.disk, b.ram, b.is_ssd 
 			FROM
 				products a
 				INNER JOIN memories b ON a.memory_id = b.id 
 			WHERE
-				a.merk_id = ` + strconv.FormatUint(warna.ID, 10) + `
-				AND a.warna_id = ` + strconv.FormatUint(id, 10) + `
-		`).Scan(&memories)
+				a.merk_id = ` + strconv.FormatUint(id, 10) + `
+				AND a.warna_id = ` + strconv.FormatUint(warna.ID, 10)
+		db.connection.Raw(memorySql).Scan(&memories)
 		detailWarnas = append(detailWarnas, model.DetailVariasiWarna{
 			WarnaId:       warna.ID,
 			Warna:         warna.Warna,
@@ -180,7 +180,10 @@ func (db *MerkConnection) DetailMerk(id uint64) (model.DetailMerk, error) {
 	}
 
 	return model.DetailMerk{
-		Detail:       merk,
+		Detail: model.Merk{
+			ID:   merk.ID,
+			Merk: merk.Merk,
+		},
 		VariasiWarna: detailWarnas,
 	}, nil
 }
