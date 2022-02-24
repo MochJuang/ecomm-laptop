@@ -9,13 +9,19 @@ import (
 )
 
 var (
-	db              *gorm.DB                   = SetupDatabaseConnection()
-	brandRepository repository.BrandRepository = repository.NewBrandRepository(db)
-	brandService    service.BrandService       = service.NewBrandService(brandRepository)
-	brandController controller.BrandController = controller.NewBrandController(brandService)
-	merkRepository  repository.MerkRepository  = repository.NewMerkRepository(db)
-	merkService     service.MerkService        = service.NewMerkService(merkRepository)
-	merkController  controller.MerkController  = controller.NewMerkController(merkService)
+	db                  *gorm.DB                       = SetupDatabaseConnection()
+	brandRepository     repository.BrandRepository     = repository.NewBrandRepository(db)
+	brandService        service.BrandService           = service.NewBrandService(brandRepository)
+	brandController     controller.BrandController     = controller.NewBrandController(brandService)
+	merkRepository      repository.MerkRepository      = repository.NewMerkRepository(db)
+	merkService         service.MerkService            = service.NewMerkService(merkRepository)
+	merkController      controller.MerkController      = controller.NewMerkController(merkService)
+	userRepository      repository.UserRepository      = repository.NewUserRepository(db)
+	userService         service.UserService            = service.NewUserService(userRepository)
+	authController      controller.AuthController      = controller.NewAuthController(userService)
+	keranjangRepository repository.KeranjangRepository = repository.NewKeranjangRepository(db)
+	keranjangService    service.KeranjangService       = service.NewKeranjangService(keranjangRepository)
+	keranjangController controller.KeranjangController = controller.NewKeranjangController(keranjangService)
 )
 
 func Routes(app *fiber.App) {
@@ -31,6 +37,13 @@ func Routes(app *fiber.App) {
 	merk := api.Group("/merk")
 	merk.Get("/", merkController.Get)
 	merk.Get("/:id", merkController.GetDetail)
-	// product.Get("/", productController.Get)
+
+	auth := api.Group("/auth")
+	auth.Post("/login", authController.Login)
+	auth.Post("/register", authController.Register)
+
+	keranjang := api.Group("/keranjang")
+	keranjang.Post("/", keranjangController.Add)
+	keranjang.Get("/:user_id", keranjangController.Get)
 
 }

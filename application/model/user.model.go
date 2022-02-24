@@ -19,3 +19,19 @@ type User struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+type LoginRequest struct {
+	Email    string `json:"email" xml:"email" form:"email" validate:"required,email"`
+	Password string `json:"password" xml:"password" form:"password" validate:"required"`
+}
+type RegisterRequest struct {
+	Name            string `json:"name" form:"name" validate:"required"`
+	Email           string `json:"email" form:"email" validate:"required"`
+	Password        string `json:"password" form:"password" validate:"required"`
+	ConfirmPassword string `json:"confirmPassword" form:"confirmPassword" validate:"required"`
+}
+
+type UserToken struct {
+	Token string
+	Name  string
+}

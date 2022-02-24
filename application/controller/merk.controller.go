@@ -44,7 +44,7 @@ func (mc *merkController) GetDetail(c *fiber.Ctx) error {
 
 	idMerk, _ := strconv.ParseUint(c.Params("id"), 10, 64)
 	if idMerk == 0 {
-		return helper.BuildErrorResponse(c, "Error ", "Id Merk is required ", helper.EmptyObj{})
+		return helper.BuildErrorResponse(c, "Error Validation", "Id Merk is required ", helper.EmptyObj{})
 	}
 
 	return helper.BuildResponse(c, "Success ", mc.merkService.Detail(idMerk))

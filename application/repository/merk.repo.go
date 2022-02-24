@@ -144,7 +144,7 @@ func (db *MerkConnection) FindAndPaginate(filter model.FilterMerk, limit int, of
 func (db *MerkConnection) DetailMerk(id uint64) (model.DetailMerk, error) {
 	var merk model.Merk
 
-	db.connection.Where("id = ?", id).Find(&merk)
+	db.connection.Where("id = ?", id).Preload("Brand").Find(&merk)
 
 	var warnas []*model.Warna
 
